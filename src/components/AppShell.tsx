@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Home, Clock, User, LifeBuoy, Car } from "lucide-react";
+import { Home, Clock, User, LifeBuoy, Users } from "lucide-react";
 import type { ReactNode } from "react";
 import { useApp } from "@/lib/store";
 
@@ -43,7 +43,7 @@ export function MobileTabBar() {
       <ul className="grid grid-cols-4 py-2">
         {[
           { to: "/", label: "Home", icon: Home },
-          { to: "/vehicles", label: "Book", icon: Car },
+          { to: "/shuttle", label: "Shuttle", icon: Users },
           { to: "/history", label: "Trips", icon: Clock },
           { to: "/profile", label: "Me", icon: User },
         ].map(({ to, label, icon: Icon }) => (
