@@ -15,6 +15,7 @@ import { Route as SupportRouteImport } from './routes/support'
 import { Route as SummaryRouteImport } from './routes/summary'
 import { Route as SuccessRouteImport } from './routes/success'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ShuttleRouteImport } from './routes/shuttle'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -56,6 +57,11 @@ const SuccessRoute = SuccessRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShuttleRoute = ShuttleRouteImport.update({
+  id: '/shuttle',
+  path: '/shuttle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/refund': typeof RefundRoute
   '/settings': typeof SettingsRoute
+  '/shuttle': typeof ShuttleRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success': typeof SuccessRoute
   '/summary': typeof SummaryRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/refund': typeof RefundRoute
   '/settings': typeof SettingsRoute
+  '/shuttle': typeof ShuttleRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success': typeof SuccessRoute
   '/summary': typeof SummaryRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/refund': typeof RefundRoute
   '/settings': typeof SettingsRoute
+  '/shuttle': typeof ShuttleRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success': typeof SuccessRoute
   '/summary': typeof SummaryRoute
@@ -194,6 +203,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/refund'
     | '/settings'
+    | '/shuttle'
     | '/sitemap.xml'
     | '/success'
     | '/summary'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/refund'
     | '/settings'
+    | '/shuttle'
     | '/sitemap.xml'
     | '/success'
     | '/summary'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/refund'
     | '/settings'
+    | '/shuttle'
     | '/sitemap.xml'
     | '/success'
     | '/summary'
@@ -255,6 +267,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   RefundRoute: typeof RefundRoute
   SettingsRoute: typeof SettingsRoute
+  ShuttleRoute: typeof ShuttleRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SuccessRoute: typeof SuccessRoute
   SummaryRoute: typeof SummaryRoute
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shuttle': {
+      id: '/shuttle'
+      path: '/shuttle'
+      fullPath: '/shuttle'
+      preLoaderRoute: typeof ShuttleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -417,6 +437,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   RefundRoute: RefundRoute,
   SettingsRoute: SettingsRoute,
+  ShuttleRoute: ShuttleRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SuccessRoute: SuccessRoute,
   SummaryRoute: SummaryRoute,
@@ -427,13 +448,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -4,6 +4,7 @@ import type { Lang } from "./i18n";
 import type { BookingStatus } from "./mock";
 
 export type TripKind = "half" | "full";
+export type BookingMode = "shuttle" | "rental";
 
 export type TripForm = {
   name: string;
@@ -16,16 +17,25 @@ export type TripForm = {
   kind: TripKind;
 };
 
+export type ShuttleForm = {
+  routeId?: string;
+  date: string;
+  departure: string; // HH:mm
+};
+
 export type Booking = {
   id: string;
   createdAt: string;
+  mode: BookingMode;
   vehicleId: string;
+  routeId?: string;
   seats: number[];
   fare: number;
   taxes: number;
   total: number;
   status: BookingStatus;
   form: TripForm;
+  shuttle?: ShuttleForm;
   payment: { method: string; status: "paid" | "failed" | "pending" };
   rating?: number;
   review?: string;
@@ -36,8 +46,12 @@ type State = {
   setLang: (l: Lang) => void;
   showedIntro: boolean;
   markIntroShown: () => void;
+  mode: BookingMode;
+  setMode: (m: BookingMode) => void;
   form: TripForm;
   setForm: (p: Partial<TripForm>) => void;
+  shuttle: ShuttleForm;
+  setShuttle: (p: Partial<ShuttleForm>) => void;
   selectedVehicleId?: string;
   setVehicle: (id: string) => void;
   selectedSeats: number[];
@@ -50,12 +64,20 @@ type State = {
   setCurrentBooking: (id: string) => void;
 };
 
+const today = new Date().toISOString().slice(0, 10);
+
 const emptyForm: TripForm = {
   name: "", email: "", phone: "",
   pickup: "", destination: "",
-  date: new Date().toISOString().slice(0, 10),
+  date: today,
   time: "09:00",
   kind: "half",
+};
+
+const emptyShuttle: ShuttleForm = {
+  routeId: undefined,
+  date: today,
+  departure: "",
 };
 
 export const useApp = create<State>()(
@@ -65,8 +87,12 @@ export const useApp = create<State>()(
       setLang: (lang) => set({ lang }),
       showedIntro: false,
       markIntroShown: () => set({ showedIntro: true }),
+      mode: "shuttle",
+      setMode: (mode) => set({ mode }),
       form: emptyForm,
       setForm: (p) => set((s) => ({ form: { ...s.form, ...p } })),
+      shuttle: emptyShuttle,
+      setShuttle: (p) => set((s) => ({ shuttle: { ...s.shuttle, ...p } })),
       selectedVehicleId: undefined,
       setVehicle: (id) => set({ selectedVehicleId: id }),
       selectedSeats: [],
@@ -89,6 +115,8 @@ export const useApp = create<State>()(
       partialize: (s) => ({
         lang: s.lang,
         form: s.form,
+        shuttle: s.shuttle,
+        mode: s.mode,
         bookings: s.bookings,
       }),
     },

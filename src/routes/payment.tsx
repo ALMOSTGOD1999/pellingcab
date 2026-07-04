@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Banknote, CreditCard, Landmark, QrCode, Smartphone, Wallet } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/AppShell";
-import { occupiedSeatsFor, vehicles } from "@/lib/mock";
+import { shuttleRoutes, vehicles } from "@/lib/mock";
 import { useApp, type Booking } from "@/lib/store";
 
 export const Route = createFileRoute("/payment")({
@@ -22,7 +22,9 @@ const methods = [
 
 function Payment() {
   const nav = useNavigate();
+  const mode = useApp(s => s.mode);
   const form = useApp(s => s.form);
+  const shuttle = useApp(s => s.shuttle);
   const vid = useApp(s => s.selectedVehicleId);
   const seats = useApp(s => s.selectedSeats);
   const addBooking = useApp(s => s.addBooking);
@@ -30,31 +32,40 @@ function Payment() {
   const [method, setMethod] = useState<string>("upi");
   const [loading, setLoading] = useState(false);
 
+  const shuttleRoute = shuttleRoutes.find(r => r.id === shuttle.routeId);
   const v = vehicles.find(x => x.id === vid) ?? vehicles[0];
-  const base = form.kind === "half" ? v.pricePerHalfDay : v.pricePerFullDay;
-  const seatUp = Math.max(0, seats.length - 1) * 200;
-  const fare = base + seatUp;
+
+  let fare = 0;
+  if (mode === "shuttle" && shuttleRoute) {
+    fare = shuttleRoute.pricePerSeat * Math.max(1, seats.length);
+  } else {
+    const base = form.kind === "half" ? v.pricePerHalfDay : v.pricePerFullDay;
+    const seatUp = Math.max(0, seats.length - 1) * 200;
+    fare = base + seatUp;
+  }
   const taxes = Math.round(fare * 0.18);
   const total = fare + taxes;
 
   function pay() {
     setLoading(true);
     setTimeout(() => {
-      // simulate: cash always pending; card success unless card number ends 0
       const ok = Math.random() > 0.08;
       if (!ok) { setLoading(false); toast.error("Payment failed. Try another method."); return; }
       const id = "PC" + Math.random().toString(36).slice(2, 8).toUpperCase();
       const booking: Booking = {
         id, createdAt: new Date().toISOString(),
-        vehicleId: v.id, seats: [...seats],
+        mode,
+        vehicleId: v.id,
+        routeId: shuttleRoute?.id,
+        seats: [...seats],
         fare, taxes, total,
         status: "confirmed",
         form: { ...form },
+        shuttle: mode === "shuttle" ? { ...shuttle } : undefined,
         payment: { method, status: method === "cash" ? "pending" : "paid" },
       };
       addBooking(booking);
       setCurrent(id);
-      // simulate driver flow progression
       const nextSteps: Array<Booking["status"]> = ["assigned","on_the_way","arrived","in_trip","completed"];
       nextSteps.forEach((s, i) => setTimeout(() => useApp.getState().updateBooking(id, { status: s }), (i + 1) * 5000));
       toast.success("Payment successful");
@@ -62,8 +73,9 @@ function Payment() {
     }, 1200);
   }
 
-  const seatOccupied = useMemo(() => occupiedSeatsFor(v.id, form.date + form.time), [v.id, form.date, form.time]);
-  void seatOccupied;
+  const orderLabel = mode === "shuttle" && shuttleRoute
+    ? `${shuttleRoute.from} → ${shuttleRoute.to} · ${shuttle.date} · ${shuttle.departure}`
+    : `${v.name} · ${form.kind === "half" ? "Half day" : "Full day"}`;
 
   return (
     <PageShell title="Payment" subtitle="Choose a method. All transactions are 256-bit encrypted.">
@@ -164,7 +176,7 @@ function Payment() {
 
         <aside className="glass rounded-3xl p-6 h-fit">
           <h3 className="font-display text-2xl">Order</h3>
-          <p className="mt-1 text-sm text-muted-foreground">{v.name} · {form.kind === "half" ? "Half day" : "Full day"}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{orderLabel}</p>
           <dl className="mt-4 space-y-1.5 text-sm">
             <div className="flex justify-between"><dt className="text-muted-foreground">Fare</dt><dd>₹{fare.toLocaleString("en-IN")}</dd></div>
             <div className="flex justify-between"><dt className="text-muted-foreground">Taxes</dt><dd>₹{taxes.toLocaleString("en-IN")}</dd></div>
