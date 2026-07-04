@@ -22,6 +22,28 @@ export const vehicles: Vehicle[] = [
   { id: "etios", name: "Toyota Etios", category: "Sedan", image: etios, seats: 4, luggage: 2, ac: true, pricePerHalfDay: 1499, pricePerFullDay: 2699, rating: 4.7, layout: 4 },
 ];
 
+// --- Shared shuttle: fixed routes + scheduled departures ------------------
+export type ShuttleRoute = {
+  id: string;
+  from: string;
+  to: string;
+  distanceKm: number;
+  durationHrs: number;
+  vehicleId: string;           // vehicle used on this route (defines seat layout)
+  pricePerSeat: number;        // shared shuttle: per-seat pricing
+  departures: string[];        // HH:mm daily departure times
+  scenic?: boolean;
+};
+
+export const shuttleRoutes: ShuttleRoute[] = [
+  { id: "del-agr", from: "Delhi",  to: "Agra",    distanceKm: 230, durationHrs: 4,  vehicleId: "innova",   pricePerSeat: 649,  departures: ["06:00", "09:30", "14:00", "18:30"] },
+  { id: "del-jai", from: "Delhi",  to: "Jaipur",  distanceKm: 270, durationHrs: 5,  vehicleId: "innova",   pricePerSeat: 799,  departures: ["05:30", "08:00", "13:00", "17:00"] },
+  { id: "del-mnl", from: "Delhi",  to: "Manali",  distanceKm: 540, durationHrs: 12, vehicleId: "fortuner", pricePerSeat: 1899, departures: ["19:00", "20:30"], scenic: true },
+  { id: "del-shm", from: "Delhi",  to: "Shimla",  distanceKm: 350, durationHrs: 8,  vehicleId: "fortuner", pricePerSeat: 1499, departures: ["07:00", "21:00"], scenic: true },
+  { id: "del-rsk", from: "Delhi",  to: "Rishikesh", distanceKm: 240, durationHrs: 5, vehicleId: "innova", pricePerSeat: 749, departures: ["06:30", "10:00", "15:30"] },
+  { id: "del-ddn", from: "Delhi",  to: "Dehradun", distanceKm: 250, durationHrs: 5, vehicleId: "etios",   pricePerSeat: 599, departures: ["07:30", "12:00", "16:30", "22:00"] },
+];
+
 export function occupiedSeatsFor(vehicleId: string, dateISO: string): number[] {
   // deterministic pseudo-random occupied seats
   const src = vehicleId + dateISO;
