@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Lang } from "./i18n";
-import type { BookingStatus } from "./mock";
+import type { BookingStatus, CancellationStatus } from "./mock";
 
 export type TripKind = "half" | "full";
 export type BookingMode = "shuttle" | "rental";
@@ -39,6 +39,15 @@ export type Booking = {
   payment: { method: string; status: "paid" | "failed" | "pending" };
   rating?: number;
   review?: string;
+  cancellation?: {
+    status: CancellationStatus;
+    reason: string;
+    notes?: string;
+    requestedAt: string;
+    refundAmount: number;
+    refundPercent: number;
+    policyLabel: string;
+  };
 };
 
 type State = {
