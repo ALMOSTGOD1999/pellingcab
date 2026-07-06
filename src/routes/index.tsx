@@ -23,7 +23,7 @@ function Home() {
   const setMode = useApp(s => s.setMode);
   const setShuttle = useApp(s => s.setShuttle);
 
-  const featured = shuttleRoutes.slice(0, 4);
+  const featured = shuttleRoutes;
 
   return (
     <>
@@ -46,7 +46,7 @@ function Home() {
               share the road.
             </h1>
             <p className="mt-5 max-w-xl text-base sm:text-lg text-muted-foreground">
-              {t.tagline} Scheduled shuttles on India's most-loved intercity routes — or rent a private cab for the day.
+              {t.tagline} Scheduled shuttles between Pelling and Bagdogra Airport — or rent a private cab for the day.
             </p>
 
             {/* Primary CTAs */}
@@ -63,7 +63,7 @@ function Home() {
                     </div>
                     <h3 className="mt-2 font-display text-2xl sm:text-3xl">Book a seat</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Fixed routes, scheduled departures — from ₹599 per seat.
+                      Pelling ⇄ Bagdogra Airport — from ₹1,299 per seat.
                     </p>
                   </div>
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full gold-gradient text-background transition group-hover:translate-x-0.5">
@@ -105,14 +105,14 @@ function Home() {
         <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
-              <p className="text-xs uppercase tracking-widest text-primary">Popular shuttle routes</p>
-              <h2 className="mt-1 font-display text-3xl sm:text-4xl">Where are you heading?</h2>
+              <p className="text-xs uppercase tracking-widest text-primary">Airport shuttle</p>
+              <h2 className="mt-1 font-display text-3xl sm:text-4xl">Pelling ⇄ Bagdogra</h2>
             </div>
             <Link to="/shuttle" className="text-sm text-muted-foreground hover:text-primary hidden sm:inline-flex items-center gap-1">
               All routes <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             {featured.map(r => (
               <Link
                 key={r.id}
