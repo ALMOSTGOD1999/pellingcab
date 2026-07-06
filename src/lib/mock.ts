@@ -35,13 +35,30 @@ export type ShuttleRoute = {
   scenic?: boolean;
 };
 
+// Pelling ⇄ Bagdogra Airport (IXB) — the only route PellingCab shuttles serve.
 export const shuttleRoutes: ShuttleRoute[] = [
-  { id: "del-agr", from: "Delhi",  to: "Agra",    distanceKm: 230, durationHrs: 4,  vehicleId: "innova",   pricePerSeat: 649,  departures: ["06:00", "09:30", "14:00", "18:30"] },
-  { id: "del-jai", from: "Delhi",  to: "Jaipur",  distanceKm: 270, durationHrs: 5,  vehicleId: "innova",   pricePerSeat: 799,  departures: ["05:30", "08:00", "13:00", "17:00"] },
-  { id: "del-mnl", from: "Delhi",  to: "Manali",  distanceKm: 540, durationHrs: 12, vehicleId: "fortuner", pricePerSeat: 1899, departures: ["19:00", "20:30"], scenic: true },
-  { id: "del-shm", from: "Delhi",  to: "Shimla",  distanceKm: 350, durationHrs: 8,  vehicleId: "fortuner", pricePerSeat: 1499, departures: ["07:00", "21:00"], scenic: true },
-  { id: "del-rsk", from: "Delhi",  to: "Rishikesh", distanceKm: 240, durationHrs: 5, vehicleId: "innova", pricePerSeat: 749, departures: ["06:30", "10:00", "15:30"] },
-  { id: "del-ddn", from: "Delhi",  to: "Dehradun", distanceKm: 250, durationHrs: 5, vehicleId: "etios",   pricePerSeat: 599, departures: ["07:30", "12:00", "16:30", "22:00"] },
+  {
+    id: "pel-ixb",
+    from: "Pelling",
+    to: "Bagdogra Airport (IXB)",
+    distanceKm: 155,
+    durationHrs: 5,
+    vehicleId: "innova",
+    pricePerSeat: 1299,
+    departures: ["03:30", "06:00", "09:00", "13:00"],
+    scenic: true,
+  },
+  {
+    id: "ixb-pel",
+    from: "Bagdogra Airport (IXB)",
+    to: "Pelling",
+    distanceKm: 155,
+    durationHrs: 5,
+    vehicleId: "innova",
+    pricePerSeat: 1299,
+    departures: ["10:00", "13:30", "16:00", "19:30"],
+    scenic: true,
+  },
 ];
 
 export function occupiedSeatsFor(vehicleId: string, dateISO: string): number[] {
@@ -61,6 +78,23 @@ export function occupiedSeatsFor(vehicleId: string, dateISO: string): number[] {
 
 export type BookingStatus =
   | "confirmed" | "assigned" | "on_the_way" | "arrived" | "in_trip" | "completed" | "cancelled";
+
+export type CancellationStatus = "requested" | "approved" | "refunded" | "rejected";
+
+export const cancellationSteps: { key: CancellationStatus; label: string; hint: string }[] = [
+  { key: "requested", label: "Request received",  hint: "We're reviewing your cancellation." },
+  { key: "approved",  label: "Cancellation approved", hint: "Refund is being processed." },
+  { key: "refunded",  label: "Refund credited",   hint: "Amount will reflect in 3–5 business days." },
+];
+
+/** Refund tiers based on hours between cancellation time and departure. */
+export function refundPolicyFor(hoursToDeparture: number): { percent: number; label: string; note: string } {
+  if (hoursToDeparture >= 24)  return { percent: 100, label: "Full refund",     note: "Cancelled 24+ hours before departure." };
+  if (hoursToDeparture >= 12)  return { percent: 75,  label: "75% refund",      note: "Cancelled 12–24 hours before departure." };
+  if (hoursToDeparture >= 4)   return { percent: 50,  label: "50% refund",      note: "Cancelled 4–12 hours before departure." };
+  if (hoursToDeparture >= 1)   return { percent: 25,  label: "25% refund",      note: "Cancelled 1–4 hours before departure." };
+  return { percent: 0, label: "No refund", note: "Cancelled under 1 hour before departure or after." };
+}
 
 export const statusSteps: { key: BookingStatus; label: string }[] = [
   { key: "confirmed", label: "Booking confirmed" },
