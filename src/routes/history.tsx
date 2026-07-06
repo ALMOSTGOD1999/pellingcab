@@ -32,7 +32,13 @@ function History() {
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-lg font-semibold gold-text">₹{b.total.toLocaleString("en-IN")}</p>
-                    <p className="text-[11px] uppercase tracking-widest text-muted-foreground">{b.status.replace("_"," ")}</p>
+                    {b.cancellation ? (
+                      <p className="text-[11px] uppercase tracking-widest text-primary">
+                        Refund · {b.cancellation.status}
+                      </p>
+                    ) : (
+                      <p className="text-[11px] uppercase tracking-widest text-muted-foreground">{b.status.replace("_"," ")}</p>
+                    )}
                   </div>
                 </Link>
               </li>
