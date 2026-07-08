@@ -13,6 +13,7 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { WelcomeAnimation } from "@/components/WelcomeAnimation";
+import { Translator } from "@/lib/translator";
 
 function NotFoundComponent() {
   return (
@@ -96,6 +97,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {!introDone && <WelcomeAnimation onDone={() => setIntroDone(true)} />}
+      <Translator />
       <Outlet />
       <Toaster theme="dark" position="top-center" richColors />
     </QueryClientProvider>
