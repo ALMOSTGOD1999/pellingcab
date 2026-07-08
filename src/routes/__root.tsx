@@ -13,6 +13,7 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { WelcomeAnimation } from "@/components/WelcomeAnimation";
+import { Translator } from "@/lib/translator";
 
 function NotFoundComponent() {
   return (
