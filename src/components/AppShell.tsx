@@ -15,6 +15,7 @@ export function Navbar() {
         </Link>
         <div className="flex shrink-0 items-center gap-2">
           <div className="hidden sm:flex items-center gap-4 mr-2">
+            <NavLink to="/"><Home className="h-4 w-4" /> Home</NavLink>
             <NavLink to="/history"><Clock className="h-4 w-4" /> Trips</NavLink>
             <NavLink to="/support"><LifeBuoy className="h-4 w-4" /> Support</NavLink>
             <NavLink to="/profile"><User className="h-4 w-4" /> Profile</NavLink>
