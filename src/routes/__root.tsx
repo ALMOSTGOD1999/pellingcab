@@ -97,6 +97,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {!introDone && <WelcomeAnimation onDone={() => setIntroDone(true)} />}
+      <Translator />
       <Outlet />
       <Toaster theme="dark" position="top-center" richColors />
     </QueryClientProvider>
