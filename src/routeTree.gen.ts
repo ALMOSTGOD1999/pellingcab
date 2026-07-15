@@ -19,6 +19,7 @@ import { Route as ShuttleRouteImport } from './routes/shuttle'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PaymentMethodsRouteImport } from './routes/payment-methods'
 import { Route as PaymentRouteImport } from './routes/payment'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HistoryRouteImport } from './routes/history'
@@ -79,6 +80,11 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaymentMethodsRoute = PaymentMethodsRouteImport.update({
+  id: '/payment-methods',
+  path: '/payment-methods',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaymentRoute = PaymentRouteImport.update({
   id: '/payment',
   path: '/payment',
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRouteWithChildren
   '/login': typeof LoginRoute
   '/payment': typeof PaymentRoute
+  '/payment-methods': typeof PaymentMethodsRoute
   '/profile': typeof ProfileRoute
   '/refund': typeof RefundRoute
   '/settings': typeof SettingsRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRouteWithChildren
   '/login': typeof LoginRoute
   '/payment': typeof PaymentRoute
+  '/payment-methods': typeof PaymentMethodsRoute
   '/profile': typeof ProfileRoute
   '/refund': typeof RefundRoute
   '/settings': typeof SettingsRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/history': typeof HistoryRouteWithChildren
   '/login': typeof LoginRoute
   '/payment': typeof PaymentRoute
+  '/payment-methods': typeof PaymentMethodsRoute
   '/profile': typeof ProfileRoute
   '/refund': typeof RefundRoute
   '/settings': typeof SettingsRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/login'
     | '/payment'
+    | '/payment-methods'
     | '/profile'
     | '/refund'
     | '/settings'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/login'
     | '/payment'
+    | '/payment-methods'
     | '/profile'
     | '/refund'
     | '/settings'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/login'
     | '/payment'
+    | '/payment-methods'
     | '/profile'
     | '/refund'
     | '/settings'
@@ -264,6 +276,7 @@ export interface RootRouteChildren {
   HistoryRoute: typeof HistoryRouteWithChildren
   LoginRoute: typeof LoginRoute
   PaymentRoute: typeof PaymentRoute
+  PaymentMethodsRoute: typeof PaymentMethodsRoute
   ProfileRoute: typeof ProfileRoute
   RefundRoute: typeof RefundRoute
   SettingsRoute: typeof SettingsRoute
@@ -346,6 +359,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-methods': {
+      id: '/payment-methods'
+      path: '/payment-methods'
+      fullPath: '/payment-methods'
+      preLoaderRoute: typeof PaymentMethodsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/payment': {
@@ -434,6 +454,7 @@ const rootRouteChildren: RootRouteChildren = {
   HistoryRoute: HistoryRouteWithChildren,
   LoginRoute: LoginRoute,
   PaymentRoute: PaymentRoute,
+  PaymentMethodsRoute: PaymentMethodsRoute,
   ProfileRoute: ProfileRoute,
   RefundRoute: RefundRoute,
   SettingsRoute: SettingsRoute,

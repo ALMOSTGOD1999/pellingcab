@@ -50,6 +50,14 @@ export type Booking = {
   };
 };
 
+export type PaymentMethod = {
+  id: string;
+  type: "card" | "upi" | "wallet" | "netbanking" | "cash";
+  label: string;    // e.g. "HDFC •••• 4521" or "rakesh@okhdfc"
+  detail?: string;  // secondary line (expiry, provider)
+  isDefault?: boolean;
+};
+
 type State = {
   lang: Lang;
   setLang: (l: Lang) => void;
@@ -71,7 +79,14 @@ type State = {
   updateBooking: (id: string, p: Partial<Booking>) => void;
   currentBookingId?: string;
   setCurrentBooking: (id: string) => void;
+  avatar?: string;
+  setAvatar: (dataUrl?: string) => void;
+  paymentMethods: PaymentMethod[];
+  addPaymentMethod: (m: PaymentMethod) => void;
+  removePaymentMethod: (id: string) => void;
+  setDefaultPaymentMethod: (id: string) => void;
 };
+
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -118,6 +133,25 @@ export const useApp = create<State>()(
       })),
       currentBookingId: undefined,
       setCurrentBooking: (id) => set({ currentBookingId: id }),
+      avatar: undefined,
+      setAvatar: (dataUrl) => set({ avatar: dataUrl }),
+      paymentMethods: [
+        { id: "pm_upi_default", type: "upi", label: "traveller@okhdfc", detail: "UPI · HDFC Bank", isDefault: true },
+      ],
+      addPaymentMethod: (m) => set((s) => ({
+        paymentMethods: [
+          ...s.paymentMethods.map(x => m.isDefault ? { ...x, isDefault: false } : x),
+          m,
+        ],
+      })),
+      removePaymentMethod: (id) => set((s) => {
+        const next = s.paymentMethods.filter(m => m.id !== id);
+        if (next.length && !next.some(m => m.isDefault)) next[0].isDefault = true;
+        return { paymentMethods: next };
+      }),
+      setDefaultPaymentMethod: (id) => set((s) => ({
+        paymentMethods: s.paymentMethods.map(m => ({ ...m, isDefault: m.id === id })),
+      })),
     }),
     {
       name: "pellingcab",
@@ -127,7 +161,10 @@ export const useApp = create<State>()(
         shuttle: s.shuttle,
         mode: s.mode,
         bookings: s.bookings,
+        avatar: s.avatar,
+        paymentMethods: s.paymentMethods,
       }),
     },
   ),
 );
+
