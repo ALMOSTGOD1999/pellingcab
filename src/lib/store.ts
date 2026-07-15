@@ -50,6 +50,14 @@ export type Booking = {
   };
 };
 
+export type PaymentMethod = {
+  id: string;
+  type: "card" | "upi" | "wallet" | "netbanking" | "cash";
+  label: string;    // e.g. "HDFC •••• 4521" or "rakesh@okhdfc"
+  detail?: string;  // secondary line (expiry, provider)
+  isDefault?: boolean;
+};
+
 type State = {
   lang: Lang;
   setLang: (l: Lang) => void;
@@ -71,7 +79,14 @@ type State = {
   updateBooking: (id: string, p: Partial<Booking>) => void;
   currentBookingId?: string;
   setCurrentBooking: (id: string) => void;
+  avatar?: string;
+  setAvatar: (dataUrl?: string) => void;
+  paymentMethods: PaymentMethod[];
+  addPaymentMethod: (m: PaymentMethod) => void;
+  removePaymentMethod: (id: string) => void;
+  setDefaultPaymentMethod: (id: string) => void;
 };
+
 
 const today = new Date().toISOString().slice(0, 10);
 
