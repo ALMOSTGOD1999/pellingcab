@@ -133,6 +133,25 @@ export const useApp = create<State>()(
       })),
       currentBookingId: undefined,
       setCurrentBooking: (id) => set({ currentBookingId: id }),
+      avatar: undefined,
+      setAvatar: (dataUrl) => set({ avatar: dataUrl }),
+      paymentMethods: [
+        { id: "pm_upi_default", type: "upi", label: "traveller@okhdfc", detail: "UPI · HDFC Bank", isDefault: true },
+      ],
+      addPaymentMethod: (m) => set((s) => ({
+        paymentMethods: [
+          ...s.paymentMethods.map(x => m.isDefault ? { ...x, isDefault: false } : x),
+          m,
+        ],
+      })),
+      removePaymentMethod: (id) => set((s) => {
+        const next = s.paymentMethods.filter(m => m.id !== id);
+        if (next.length && !next.some(m => m.isDefault)) next[0].isDefault = true;
+        return { paymentMethods: next };
+      }),
+      setDefaultPaymentMethod: (id) => set((s) => ({
+        paymentMethods: s.paymentMethods.map(m => ({ ...m, isDefault: m.id === id })),
+      })),
     }),
     {
       name: "pellingcab",
@@ -142,7 +161,10 @@ export const useApp = create<State>()(
         shuttle: s.shuttle,
         mode: s.mode,
         bookings: s.bookings,
+        avatar: s.avatar,
+        paymentMethods: s.paymentMethods,
       }),
     },
   ),
 );
+
