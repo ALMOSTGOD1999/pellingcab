@@ -25,7 +25,10 @@ function NotFoundComponent() {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
-          <Link to="/" className="inline-flex items-center justify-center rounded-2xl gold-gradient px-5 py-2.5 text-sm font-semibold text-background">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-2xl gold-gradient px-5 py-2.5 text-sm font-semibold text-background"
+          >
             Back to home
           </Link>
         </div>
@@ -37,7 +40,9 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => { reportLovableError(error, { boundary: "tanstack_root_error_component" }); }, [error]);
+  useEffect(() => {
+    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+  }, [error]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -45,10 +50,20 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <p className="mt-2 text-sm text-muted-foreground">Please try again or return home.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="inline-flex items-center justify-center rounded-2xl gold-gradient px-4 py-2 text-sm font-semibold text-background"
-          >Try again</button>
-          <a href="/" className="inline-flex items-center justify-center rounded-2xl border border-border bg-card px-4 py-2 text-sm font-medium">Go home</a>
+          >
+            Try again
+          </button>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-2xl border border-border bg-card px-4 py-2 text-sm font-medium"
+          >
+            Go home
+          </a>
         </div>
       </div>
     </div>
@@ -62,9 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#1a1408" },
       { title: "PellingCab · Chauffeured luxury travel" },
-      { name: "description", content: "Book premium chauffeur-driven cars in India — half-day and full-day rentals with transparent pricing, instant confirmation, and live tracking." },
+      {
+        name: "description",
+        content:
+          "Book premium chauffeur-driven cars in India — half-day and full-day rentals with transparent pricing, instant confirmation, and live tracking.",
+      },
       { property: "og:title", content: "PellingCab · Chauffeured luxury travel" },
-      { property: "og:description", content: "Premium chauffeur-driven half-day and full-day rentals." },
+      {
+        property: "og:description",
+        content: "Premium chauffeur-driven half-day and full-day rentals.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -72,8 +94,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600;700&display=swap" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600;700&display=swap",
+      },
+      { rel: "icon", href: "/logo.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -85,8 +110,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
   );
 }
