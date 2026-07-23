@@ -27,6 +27,7 @@ export const users = pgTable(
     passwordHash: varchar("password_hash", { length: 255 }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+    welcomedAt: timestamp("welcomed_at", { withTimezone: true }),
   },
   (t) => [index("users_phone_idx").on(t.phone)],
 );
