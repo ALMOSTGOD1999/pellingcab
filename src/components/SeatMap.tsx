@@ -2,8 +2,8 @@ import { useApp } from "@/lib/store";
 import { Steering } from "./icons";
 
 export function SeatMap({ total, occupied }: { total: number; occupied: number[] }) {
-  const selected = useApp(s => s.selectedSeats);
-  const toggle = useApp(s => s.toggleSeat);
+  const selected = useApp((s) => s.selectedSeats);
+  const toggle = useApp((s) => s.toggleSeat);
   const seats = Array.from({ length: total }, (_, i) => i + 1);
 
   // layout: 1 driver row (seat 1 shown as steering), remaining as 2-per-row
@@ -31,14 +31,14 @@ export function SeatMap({ total, occupied }: { total: number; occupied: number[]
         <div className="space-y-3">
           {rows.map((row, ri) => (
             <div key={ri} className="grid grid-cols-2 gap-3">
-              {row.map(n => {
+              {row.map((n) => {
                 const isOcc = occupied.includes(n);
                 const isSel = selected.includes(n);
                 const cls = isOcc
                   ? "bg-destructive/80 text-destructive-foreground cursor-not-allowed"
                   : isSel
-                  ? "gold-gradient text-background shadow-glow"
-                  : "bg-success/70 text-success-foreground hover:brightness-110";
+                    ? "gold-gradient text-background shadow-glow"
+                    : "bg-success/70 text-success-foreground hover:brightness-110";
                 return (
                   <button
                     key={n}

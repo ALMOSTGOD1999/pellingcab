@@ -29,6 +29,19 @@ import { Route as BookRouteImport } from './routes/book'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HistoryIdRouteImport } from './routes/history.$id'
+import { Route as ApiWelcomeRouteImport } from './routes/api/welcome'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminLayoutRouteImport } from './routes/admin/_layout'
+import { Route as AdminLayoutIndexRouteImport } from './routes/admin/_layout.index'
+import { Route as ApiAuthMeRouteImport } from './routes/api/auth/me'
+import { Route as ApiAuthLogoutRouteImport } from './routes/api/auth/logout'
+import { Route as ApiAuthLoginRouteImport } from './routes/api/auth/login'
+import { Route as ApiAdminUsersRouteImport } from './routes/api/admin/users'
+import { Route as ApiAdminRatesRouteImport } from './routes/api/admin/rates'
+import { Route as ApiAdminBookingsRouteImport } from './routes/api/admin/bookings'
+import { Route as AdminLayoutUsersRouteImport } from './routes/admin/_layout.users'
+import { Route as AdminLayoutRatesRouteImport } from './routes/admin/_layout.rates'
+import { Route as AdminLayoutBookingsRouteImport } from './routes/admin/_layout.bookings'
 
 const VehiclesRoute = VehiclesRouteImport.update({
   id: '/vehicles',
@@ -130,6 +143,71 @@ const HistoryIdRoute = HistoryIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => HistoryRoute,
 } as any)
+const ApiWelcomeRoute = ApiWelcomeRouteImport.update({
+  id: '/api/welcome',
+  path: '/api/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLayoutRoute = AdminLayoutRouteImport.update({
+  id: '/admin/_layout',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLayoutIndexRoute = AdminLayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
+const ApiAuthMeRoute = ApiAuthMeRouteImport.update({
+  id: '/api/auth/me',
+  path: '/api/auth/me',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthLogoutRoute = ApiAuthLogoutRouteImport.update({
+  id: '/api/auth/logout',
+  path: '/api/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthLoginRoute = ApiAuthLoginRouteImport.update({
+  id: '/api/auth/login',
+  path: '/api/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminUsersRoute = ApiAdminUsersRouteImport.update({
+  id: '/api/admin/users',
+  path: '/api/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminRatesRoute = ApiAdminRatesRouteImport.update({
+  id: '/api/admin/rates',
+  path: '/api/admin/rates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminBookingsRoute = ApiAdminBookingsRouteImport.update({
+  id: '/api/admin/bookings',
+  path: '/api/admin/bookings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLayoutUsersRoute = AdminLayoutUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
+const AdminLayoutRatesRoute = AdminLayoutRatesRouteImport.update({
+  id: '/rates',
+  path: '/rates',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
+const AdminLayoutBookingsRoute = AdminLayoutBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -151,7 +229,20 @@ export interface FileRoutesByFullPath {
   '/support': typeof SupportRoute
   '/tracking': typeof TrackingRoute
   '/vehicles': typeof VehiclesRoute
+  '/admin': typeof AdminLayoutRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/api/welcome': typeof ApiWelcomeRoute
   '/history/$id': typeof HistoryIdRoute
+  '/admin/bookings': typeof AdminLayoutBookingsRoute
+  '/admin/rates': typeof AdminLayoutRatesRoute
+  '/admin/users': typeof AdminLayoutUsersRoute
+  '/api/admin/bookings': typeof ApiAdminBookingsRoute
+  '/api/admin/rates': typeof ApiAdminRatesRoute
+  '/api/admin/users': typeof ApiAdminUsersRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/me': typeof ApiAuthMeRoute
+  '/admin/': typeof AdminLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,7 +264,19 @@ export interface FileRoutesByTo {
   '/support': typeof SupportRoute
   '/tracking': typeof TrackingRoute
   '/vehicles': typeof VehiclesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/api/welcome': typeof ApiWelcomeRoute
   '/history/$id': typeof HistoryIdRoute
+  '/admin/bookings': typeof AdminLayoutBookingsRoute
+  '/admin/rates': typeof AdminLayoutRatesRoute
+  '/admin/users': typeof AdminLayoutUsersRoute
+  '/api/admin/bookings': typeof ApiAdminBookingsRoute
+  '/api/admin/rates': typeof ApiAdminRatesRoute
+  '/api/admin/users': typeof ApiAdminUsersRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/me': typeof ApiAuthMeRoute
+  '/admin': typeof AdminLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,7 +299,20 @@ export interface FileRoutesById {
   '/support': typeof SupportRoute
   '/tracking': typeof TrackingRoute
   '/vehicles': typeof VehiclesRoute
+  '/admin/_layout': typeof AdminLayoutRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/api/welcome': typeof ApiWelcomeRoute
   '/history/$id': typeof HistoryIdRoute
+  '/admin/_layout/bookings': typeof AdminLayoutBookingsRoute
+  '/admin/_layout/rates': typeof AdminLayoutRatesRoute
+  '/admin/_layout/users': typeof AdminLayoutUsersRoute
+  '/api/admin/bookings': typeof ApiAdminBookingsRoute
+  '/api/admin/rates': typeof ApiAdminRatesRoute
+  '/api/admin/users': typeof ApiAdminUsersRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/me': typeof ApiAuthMeRoute
+  '/admin/_layout/': typeof AdminLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -220,7 +336,20 @@ export interface FileRouteTypes {
     | '/support'
     | '/tracking'
     | '/vehicles'
+    | '/admin'
+    | '/admin/login'
+    | '/api/welcome'
     | '/history/$id'
+    | '/admin/bookings'
+    | '/admin/rates'
+    | '/admin/users'
+    | '/api/admin/bookings'
+    | '/api/admin/rates'
+    | '/api/admin/users'
+    | '/api/auth/login'
+    | '/api/auth/logout'
+    | '/api/auth/me'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -242,7 +371,19 @@ export interface FileRouteTypes {
     | '/support'
     | '/tracking'
     | '/vehicles'
+    | '/admin/login'
+    | '/api/welcome'
     | '/history/$id'
+    | '/admin/bookings'
+    | '/admin/rates'
+    | '/admin/users'
+    | '/api/admin/bookings'
+    | '/api/admin/rates'
+    | '/api/admin/users'
+    | '/api/auth/login'
+    | '/api/auth/logout'
+    | '/api/auth/me'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -264,7 +405,20 @@ export interface FileRouteTypes {
     | '/support'
     | '/tracking'
     | '/vehicles'
+    | '/admin/_layout'
+    | '/admin/login'
+    | '/api/welcome'
     | '/history/$id'
+    | '/admin/_layout/bookings'
+    | '/admin/_layout/rates'
+    | '/admin/_layout/users'
+    | '/api/admin/bookings'
+    | '/api/admin/rates'
+    | '/api/admin/users'
+    | '/api/auth/login'
+    | '/api/auth/logout'
+    | '/api/auth/me'
+    | '/admin/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -287,6 +441,15 @@ export interface RootRouteChildren {
   SupportRoute: typeof SupportRoute
   TrackingRoute: typeof TrackingRoute
   VehiclesRoute: typeof VehiclesRoute
+  AdminLayoutRoute: typeof AdminLayoutRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
+  ApiWelcomeRoute: typeof ApiWelcomeRoute
+  ApiAdminBookingsRoute: typeof ApiAdminBookingsRoute
+  ApiAdminRatesRoute: typeof ApiAdminRatesRoute
+  ApiAdminUsersRoute: typeof ApiAdminUsersRoute
+  ApiAuthLoginRoute: typeof ApiAuthLoginRoute
+  ApiAuthLogoutRoute: typeof ApiAuthLogoutRoute
+  ApiAuthMeRoute: typeof ApiAuthMeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -431,6 +594,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HistoryIdRouteImport
       parentRoute: typeof HistoryRoute
     }
+    '/api/welcome': {
+      id: '/api/welcome'
+      path: '/api/welcome'
+      fullPath: '/api/welcome'
+      preLoaderRoute: typeof ApiWelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_layout': {
+      id: '/admin/_layout'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_layout/': {
+      id: '/admin/_layout/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminLayoutIndexRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/api/auth/me': {
+      id: '/api/auth/me'
+      path: '/api/auth/me'
+      fullPath: '/api/auth/me'
+      preLoaderRoute: typeof ApiAuthMeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/logout': {
+      id: '/api/auth/logout'
+      path: '/api/auth/logout'
+      fullPath: '/api/auth/logout'
+      preLoaderRoute: typeof ApiAuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/login': {
+      id: '/api/auth/login'
+      path: '/api/auth/login'
+      fullPath: '/api/auth/login'
+      preLoaderRoute: typeof ApiAuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/users': {
+      id: '/api/admin/users'
+      path: '/api/admin/users'
+      fullPath: '/api/admin/users'
+      preLoaderRoute: typeof ApiAdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/rates': {
+      id: '/api/admin/rates'
+      path: '/api/admin/rates'
+      fullPath: '/api/admin/rates'
+      preLoaderRoute: typeof ApiAdminRatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/bookings': {
+      id: '/api/admin/bookings'
+      path: '/api/admin/bookings'
+      fullPath: '/api/admin/bookings'
+      preLoaderRoute: typeof ApiAdminBookingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_layout/users': {
+      id: '/admin/_layout/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminLayoutUsersRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/admin/_layout/rates': {
+      id: '/admin/_layout/rates'
+      path: '/rates'
+      fullPath: '/admin/rates'
+      preLoaderRoute: typeof AdminLayoutRatesRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/admin/_layout/bookings': {
+      id: '/admin/_layout/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminLayoutBookingsRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
   }
 }
 
@@ -444,6 +698,24 @@ const HistoryRouteChildren: HistoryRouteChildren = {
 
 const HistoryRouteWithChildren =
   HistoryRoute._addFileChildren(HistoryRouteChildren)
+
+interface AdminLayoutRouteChildren {
+  AdminLayoutBookingsRoute: typeof AdminLayoutBookingsRoute
+  AdminLayoutRatesRoute: typeof AdminLayoutRatesRoute
+  AdminLayoutUsersRoute: typeof AdminLayoutUsersRoute
+  AdminLayoutIndexRoute: typeof AdminLayoutIndexRoute
+}
+
+const AdminLayoutRouteChildren: AdminLayoutRouteChildren = {
+  AdminLayoutBookingsRoute: AdminLayoutBookingsRoute,
+  AdminLayoutRatesRoute: AdminLayoutRatesRoute,
+  AdminLayoutUsersRoute: AdminLayoutUsersRoute,
+  AdminLayoutIndexRoute: AdminLayoutIndexRoute,
+}
+
+const AdminLayoutRouteWithChildren = AdminLayoutRoute._addFileChildren(
+  AdminLayoutRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -465,7 +737,26 @@ const rootRouteChildren: RootRouteChildren = {
   SupportRoute: SupportRoute,
   TrackingRoute: TrackingRoute,
   VehiclesRoute: VehiclesRoute,
+  AdminLayoutRoute: AdminLayoutRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
+  ApiWelcomeRoute: ApiWelcomeRoute,
+  ApiAdminBookingsRoute: ApiAdminBookingsRoute,
+  ApiAdminRatesRoute: ApiAdminRatesRoute,
+  ApiAdminUsersRoute: ApiAdminUsersRoute,
+  ApiAuthLoginRoute: ApiAuthLoginRoute,
+  ApiAuthLogoutRoute: ApiAuthLogoutRoute,
+  ApiAuthMeRoute: ApiAuthMeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

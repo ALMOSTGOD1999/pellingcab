@@ -15,6 +15,13 @@
       "when": 1784205041430,
       "tag": "0001_outgoing_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784651429743,
+      "tag": "0002_blue_apocalypse",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "id": "afd64100-19d5-4a52-aedd-268628ba9cb1",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ed25b53d-70d3-4744-aa23-f5a94110a849",
+  "prevId": "4dea2867-d6da-4bcb-ad6f-362844dbf181",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -690,6 +690,25 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'en'"
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_admin": {
+          "name": "is_admin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",

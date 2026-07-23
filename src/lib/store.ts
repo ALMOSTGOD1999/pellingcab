@@ -53,8 +53,8 @@ export type Booking = {
 export type PaymentMethod = {
   id: string;
   type: "card" | "upi" | "wallet" | "netbanking" | "cash";
-  label: string;    // e.g. "HDFC •••• 4521" or "rakesh@okhdfc"
-  detail?: string;  // secondary line (expiry, provider)
+  label: string; // e.g. "HDFC •••• 4521" or "rakesh@okhdfc"
+  detail?: string; // secondary line (expiry, provider)
   isDefault?: boolean;
 };
 
@@ -87,12 +87,14 @@ type State = {
   setDefaultPaymentMethod: (id: string) => void;
 };
 
-
 const today = new Date().toISOString().slice(0, 10);
 
 const emptyForm: TripForm = {
-  name: "", email: "", phone: "",
-  pickup: "", destination: "",
+  name: "",
+  email: "",
+  phone: "",
+  pickup: "",
+  destination: "",
   date: today,
   time: "09:00",
   kind: "half",
@@ -120,38 +122,49 @@ export const useApp = create<State>()(
       selectedVehicleId: undefined,
       setVehicle: (id) => set({ selectedVehicleId: id }),
       selectedSeats: [],
-      toggleSeat: (n) => set((s) => ({
-        selectedSeats: s.selectedSeats.includes(n)
-          ? s.selectedSeats.filter(x => x !== n)
-          : [...s.selectedSeats, n],
-      })),
+      toggleSeat: (n) =>
+        set((s) => ({
+          selectedSeats: s.selectedSeats.includes(n)
+            ? s.selectedSeats.filter((x) => x !== n)
+            : [...s.selectedSeats, n],
+        })),
       resetSeats: () => set({ selectedSeats: [] }),
       bookings: [],
       addBooking: (b) => set((s) => ({ bookings: [b, ...s.bookings] })),
-      updateBooking: (id, p) => set((s) => ({
-        bookings: s.bookings.map(b => b.id === id ? { ...b, ...p } : b),
-      })),
+      updateBooking: (id, p) =>
+        set((s) => ({
+          bookings: s.bookings.map((b) => (b.id === id ? { ...b, ...p } : b)),
+        })),
       currentBookingId: undefined,
       setCurrentBooking: (id) => set({ currentBookingId: id }),
       avatar: undefined,
       setAvatar: (dataUrl) => set({ avatar: dataUrl }),
       paymentMethods: [
-        { id: "pm_upi_default", type: "upi", label: "traveller@okhdfc", detail: "UPI · HDFC Bank", isDefault: true },
+        {
+          id: "pm_upi_default",
+          type: "upi",
+          label: "traveller@okhdfc",
+          detail: "UPI · HDFC Bank",
+          isDefault: true,
+        },
       ],
-      addPaymentMethod: (m) => set((s) => ({
-        paymentMethods: [
-          ...s.paymentMethods.map(x => m.isDefault ? { ...x, isDefault: false } : x),
-          m,
-        ],
-      })),
-      removePaymentMethod: (id) => set((s) => {
-        const next = s.paymentMethods.filter(m => m.id !== id);
-        if (next.length && !next.some(m => m.isDefault)) next[0].isDefault = true;
-        return { paymentMethods: next };
-      }),
-      setDefaultPaymentMethod: (id) => set((s) => ({
-        paymentMethods: s.paymentMethods.map(m => ({ ...m, isDefault: m.id === id })),
-      })),
+      addPaymentMethod: (m) =>
+        set((s) => ({
+          paymentMethods: [
+            ...s.paymentMethods.map((x) => (m.isDefault ? { ...x, isDefault: false } : x)),
+            m,
+          ],
+        })),
+      removePaymentMethod: (id) =>
+        set((s) => {
+          const next = s.paymentMethods.filter((m) => m.id !== id);
+          if (next.length && !next.some((m) => m.isDefault)) next[0].isDefault = true;
+          return { paymentMethods: next };
+        }),
+      setDefaultPaymentMethod: (id) =>
+        set((s) => ({
+          paymentMethods: s.paymentMethods.map((m) => ({ ...m, isDefault: m.id === id })),
+        })),
     }),
     {
       name: "pellingcab",
@@ -167,4 +180,3 @@ export const useApp = create<State>()(
     },
   ),
 );
-
