@@ -1,28 +1,9 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Mail, User } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Lock, Phone } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Navbar, Footer } from "@/components/AppShell";
 import { Field, TextInput } from "@/components/Field";
-import { useApp } from "@/lib/store";
-
-const WELCOMED_KEY = "pellingcab_welcomed";
-
-async function sendWelcomeEmail(email: string, name: string) {
-  try {
-    const res = await fetch("/api/welcome", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, name }),
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      console.error("Welcome email failed:", err);
-    }
-  } catch (err) {
-    console.error("Welcome email request failed:", err);
-  }
-}
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Sign in · PellingCab" }] }),
@@ -30,27 +11,40 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const setForm = useApp((s) => s.setForm);
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (name) setForm({ name });
-    if (email) setForm({ email });
-
-    const alreadyWelcomed = localStorage.getItem(WELCOMED_KEY);
-    if (!alreadyWelcomed && email) {
-      localStorage.setItem(WELCOMED_KEY, "1");
-      sendWelcomeEmail(email, name || email.split("@")[0]);
-      toast.success(`Welcome, ${name || "traveller"}! 🎉`);
-    } else {
-      toast.success("Signed in");
+    if (!phone.trim() || !password) {
+      toast.error("Please enter phone and password");
+      return;
     }
 
-    nav({ to: "/" });
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: phone.trim(), password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || "Invalid credentials");
+        return;
+      }
+
+      toast.success(`Welcome back, ${data.user?.name || "traveller"}!`);
+      nav({ to: "/" });
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,28 +58,36 @@ function Login() {
           </p>
 
           <form onSubmit={handleSignIn} className="mt-6 space-y-4">
-            <Field label="Full name" icon={<User className="h-4 w-4" />}>
+            <Field label="Phone number" icon={<Phone className="h-4 w-4" />}>
               <TextInput
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Rakesh Sharma"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+91 98110 00000"
               />
             </Field>
-            <Field label="Email address" icon={<Mail className="h-4 w-4" />}>
+            <Field label="Password" icon={<Lock className="h-4 w-4" />}>
               <TextInput
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="rakesh@example.com"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Your password"
               />
             </Field>
             <button
               type="submit"
-              className="w-full rounded-2xl gold-gradient px-5 py-3 text-sm font-semibold text-background"
+              disabled={loading}
+              className="w-full rounded-2xl gold-gradient px-5 py-3 text-sm font-semibold text-background disabled:opacity-60"
             >
-              Sign in
+              {loading ? "Signing in…" : "Sign in"}
             </button>
           </form>
+
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-primary hover:underline">
+              Sign up
+            </Link>
+          </p>
         </div>
       </main>
       <Footer />

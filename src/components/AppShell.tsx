@@ -1,11 +1,28 @@
-import { Link } from "@tanstack/react-router";
-import { Home, Clock, User, LifeBuoy, Users } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Home, Clock, User, LifeBuoy, Users, LogOut, LogIn } from "lucide-react";
 import type { ReactNode } from "react";
+import { toast } from "sonner";
 import { useApp } from "@/lib/store";
+import { useAuth } from "@/hooks/use-auth";
 
 export function Navbar() {
   const lang = useApp((s) => s.lang);
   const setLang = useApp((s) => s.setLang);
+  const { user, loading } = useAuth();
+  const nav = useNavigate();
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      toast.success("Signed out");
+      nav({ to: "/" });
+      // Hard reload to clear all client state
+      window.location.reload();
+    } catch {
+      toast.error("Failed to sign out");
+    }
+  }
+
   return (
     <header className="sticky top-0 z-40 glass">
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6">
@@ -28,9 +45,28 @@ export function Navbar() {
             <NavLink to="/support">
               <LifeBuoy className="h-4 w-4" /> Support
             </NavLink>
-            <NavLink to="/profile">
-              <User className="h-4 w-4" /> Profile
-            </NavLink>
+            {!loading && user ? (
+              <>
+                <NavLink to="/profile">
+                  <User className="h-4 w-4" /> {user.name || "Profile"}
+                </NavLink>
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition"
+                >
+                  <LogOut className="h-4 w-4" /> Sign out
+                </button>
+              </>
+            ) : !loading ? (
+              <>
+                <NavLink to="/login">
+                  <LogIn className="h-4 w-4" /> Sign in
+                </NavLink>
+                <NavLink to="/signup">
+                  <User className="h-4 w-4" /> Sign up
+                </NavLink>
+              </>
+            ) : null}
           </div>
           <div className="glass rounded-full p-0.5 flex text-xs">
             <button
