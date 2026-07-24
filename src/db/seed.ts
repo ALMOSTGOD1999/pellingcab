@@ -22,7 +22,7 @@ async function main() {
     await db.insert(schema.users).values({
       phone: "Admin",
       name: "Administrator",
-      email: "admin@pellingcab.in",
+      email: "admin@pellingcab.com",
       isAdmin: true,
       passwordHash: await hashPassword("Pelling@123"),
     });

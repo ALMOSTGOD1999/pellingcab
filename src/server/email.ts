@@ -7,7 +7,7 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-const FROM = "PellingCab <welcome@pellingcab.in>";
+const FROM = "PellingCab <welcome@pellingcab.com>";
 
 export function buildWelcomeEmailHtml(userName: string): string {
   const firstName = userName.split(" ")[0] || userName;
@@ -29,7 +29,7 @@ export function buildWelcomeEmailHtml(userName: string): string {
           <!-- LOGO -->
           <tr>
             <td align="center" style="padding:0 0 32px 0;">
-              <img src="https://www.pellingcab.in/logo.png" alt="PellingCab" width="56" height="56" style="display:block;border-radius:50%;box-shadow:0 8px 32px rgba(212,175,55,0.25);">
+              <img src="https://www.pellingcab.com/logo.png" alt="PellingCab" width="56" height="56" style="display:block;border-radius:50%;box-shadow:0 8px 32px rgba(212,175,55,0.25);">
             </td>
           </tr>
 
@@ -116,7 +116,7 @@ export function buildWelcomeEmailHtml(userName: string): string {
               <!-- CTA BUTTON -->
               <tr>
                 <td align="center" style="padding:0 0 24px 0;">
-                  <a href="https://www.pellingcab.in/book" style="display:inline-block;background:linear-gradient(135deg,#F5D77A,#C9A235 60%,#B8912E);color:#1E1A14;text-decoration:none;padding:14px 36px;border-radius:16px;font-size:15px;font-weight:600;letter-spacing:0.02em;">
+                  <a href="https://www.pellingcab.com/book" style="display:inline-block;background:linear-gradient(135deg,#F5D77A,#C9A235 60%,#B8912E);color:#1E1A14;text-decoration:none;padding:14px 36px;border-radius:16px;font-size:15px;font-weight:600;letter-spacing:0.02em;">
                     Book your first ride
                   </a>
                 </td>
@@ -147,11 +147,11 @@ export function buildWelcomeEmailHtml(userName: string): string {
           <tr>
             <td align="center" style="padding:24px 0 0 0;">
               <p style="margin:0 0 8px 0;font-size:12px;color:#5A5348;">
-                <a href="https://www.pellingcab.in/about" style="color:#8A7E6B;text-decoration:none;">About</a>
+                <a href="https://www.pellingcab.com/about" style="color:#8A7E6B;text-decoration:none;">About</a>
                 &nbsp;&middot;&nbsp;
-                <a href="https://www.pellingcab.in/support" style="color:#8A7E6B;text-decoration:none;">Support</a>
+                <a href="https://www.pellingcab.com/support" style="color:#8A7E6B;text-decoration:none;">Support</a>
                 &nbsp;&middot;&nbsp;
-                <a href="https://www.pellingcab.in/settings" style="color:#8A7E6B;text-decoration:none;">Settings</a>
+                <a href="https://www.pellingcab.com/settings" style="color:#8A7E6B;text-decoration:none;">Settings</a>
               </p>
               <p style="margin:0;font-size:11px;color:#4A453C;">
                 You received this email because you signed up at PellingCab.
