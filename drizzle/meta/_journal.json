@@ -29,6 +29,13 @@
       "when": 1753382400000,
       "tag": "0003_add_welcomed_at",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784838529401,
+      "tag": "0004_certain_argent",
+      "breakpoints": true
     }
   ]
 }
