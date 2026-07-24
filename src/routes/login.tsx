@@ -39,7 +39,11 @@ function Login() {
       }
 
       toast.success(`Welcome back, ${data.user?.name || "traveller"}!`);
-      nav({ to: "/" });
+      if (data.user?.isAdmin) {
+        nav({ to: "/admin" });
+      } else {
+        nav({ to: "/" });
+      }
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
