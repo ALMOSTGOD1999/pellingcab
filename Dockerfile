@@ -21,8 +21,11 @@ FROM node:20-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copy only what's needed to run
-COPY --from=build /app/.output ./.output
+# Copy built assets, runtime dependencies, and Node.js server wrapper
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/node-server.mjs ./node-server.mjs
+COPY --from=build /app/public ./public
 
 EXPOSE 3000
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "node-server.mjs"]
