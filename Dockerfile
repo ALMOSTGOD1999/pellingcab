@@ -22,9 +22,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Copy only what's needed to run
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/.output ./.output
 
 EXPOSE 3000
-CMD ["node", "dist/server/server.js"]
+CMD ["node", ".output/server/index.mjs"]
