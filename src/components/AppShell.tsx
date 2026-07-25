@@ -100,12 +100,20 @@ function NavLink({ to, children }: { to: string; children: ReactNode }) {
 }
 
 export function MobileTabBar() {
+  const { user, loading } = useAuth();
+
   return (
     <nav className="fixed bottom-0 inset-x-0 z-40 sm:hidden glass border-t border-border/60">
-      <ul className="grid grid-cols-4 py-2">
+      <ul className={`grid py-2 ${!loading && !user ? "grid-cols-5" : "grid-cols-4"}`}>
         {[
           { to: "/", label: "Home", icon: Home },
           { to: "/shuttle", label: "Shuttle", icon: Users },
+          ...(loading || user
+            ? []
+            : [
+                { to: "/login", label: "Sign in", icon: LogIn },
+                { to: "/signup", label: "Sign up", icon: User },
+              ]),
           { to: "/history", label: "Trips", icon: Clock },
           { to: "/profile", label: "Me", icon: User },
         ].map(({ to, label, icon: Icon }) => (

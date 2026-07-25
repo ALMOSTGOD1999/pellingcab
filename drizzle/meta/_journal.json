@@ -36,6 +36,13 @@
       "when": 1784838529401,
       "tag": "0004_certain_argent",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1785000000000,
+      "tag": "0005_guest_bookings",
+      "breakpoints": true
     }
   ]
 }

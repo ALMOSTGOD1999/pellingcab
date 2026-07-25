@@ -69,9 +69,7 @@ export const bookings = pgTable(
   "bookings",
   {
     id: varchar("id", { length: 50 }).primaryKey(),
-    userId: integer("user_id")
-      .notNull()
-      .references(() => users.id),
+    userId: integer("user_id").references(() => users.id),
     mode: varchar("mode", { length: 20 }).notNull(),
     vehicleId: varchar("vehicle_id", { length: 50 })
       .notNull()

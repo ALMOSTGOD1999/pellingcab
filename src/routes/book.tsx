@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   CalendarClock,
   Mail,
@@ -13,7 +13,6 @@ import { useState } from "react";
 import { PageShell } from "@/components/AppShell";
 import { Field, TextInput } from "@/components/Field";
 import { useApp } from "@/lib/store";
-import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/book")({
   head: () => ({ meta: [{ title: "Book your ride · PellingCab" }] }),
@@ -25,46 +24,6 @@ function Book() {
   const setForm = useApp((s) => s.setForm);
   const nav = useNavigate();
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <PageShell title="Trip details" subtitle="Tell us where and when — we'll match a chauffeur.">
-        <div className="glass rounded-3xl p-12 text-center text-muted-foreground">
-          Checking your session…
-        </div>
-      </PageShell>
-    );
-  }
-
-  if (!user) {
-    return (
-      <PageShell
-        title="Sign in required"
-        subtitle="Please sign in or create an account to book a ride."
-      >
-        <div className="glass rounded-3xl p-8 max-w-md mx-auto text-center space-y-4">
-          <p className="text-sm text-muted-foreground">
-            You need an account to book a cab. It only takes a minute.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/login"
-              className="inline-flex items-center justify-center rounded-2xl gold-gradient px-5 py-3 text-sm font-semibold text-background"
-            >
-              Sign in
-            </Link>
-            <Link
-              to="/signup"
-              className="inline-flex items-center justify-center rounded-2xl border border-border bg-card px-5 py-3 text-sm font-medium"
-            >
-              Create account
-            </Link>
-          </div>
-        </div>
-      </PageShell>
-    );
-  }
 
   function validate() {
     const e: Record<string, string> = {};
